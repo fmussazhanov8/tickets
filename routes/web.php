@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +30,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/newticket', function () {
-    return Inertia::render('NewTicket');
-})->middleware(['auth', 'verified'])->name('newticket');
+Route::get('/newticket', [TicketController::class,'form'])->middleware(['auth', 'verified'])->name('newticket');
+Route::get('/ticketlist', [TicketController::class, 'list'])->middleware(['auth', 'verified'])->name('ticketlist');
+
+
+Route::post('/newticket',  [TicketController::class, 'store'])->middleware(['auth', 'verified'])->name('post.newticket');
+
 
 //Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
