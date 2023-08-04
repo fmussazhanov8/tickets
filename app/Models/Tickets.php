@@ -21,6 +21,22 @@ class Tickets extends Model
             ->select('tickets.*', 'categories.title as category_name', 'users.FirstName', 'users.LastName', 'users.email')
             ->join('categories', 'tickets.category_id', '=', 'categories.id')
             ->join('users', 'tickets.user_id', '=', 'users.id')
+            ->orderBy('tickets.id', 'desc')
             ->get();
+    } public static function getAllTicketList()
+    {
+        return Tickets::select('tickets.*', 'categories.title as category_name', 'users.FirstName', 'users.LastName', 'users.email')
+            ->join('categories', 'tickets.category_id', '=', 'categories.id')
+            ->join('users', 'tickets.user_id', '=', 'users.id')
+            ->orderBy('tickets.id', 'desc')
+            ->get();
+    }
+    public static function getExactTicket($id)
+    {
+        return Tickets::where('tickets.id',$id)
+            ->select('tickets.*', 'categories.title as category_name', 'users.FirstName', 'users.LastName', 'users.email')
+            ->join('categories', 'tickets.category_id', '=', 'categories.id')
+            ->join('users', 'tickets.user_id', '=', 'users.id')
+            ->first();
     }
 }

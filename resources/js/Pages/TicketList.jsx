@@ -1,8 +1,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 
 export default function TicketList({ auth ,list,tickets}) {
     console.log(tickets);
+    const {get } = useForm({});
+    const exactTicket = (id) => {
+        get(route('ticket',id));
+    }
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -15,7 +19,7 @@ export default function TicketList({ auth ,list,tickets}) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5">
                         <ul role="list" className="divide-y divide-gray-100">
                             {tickets.map((ticket) => (
-                                <li key={ticket.id} className="flex justify-between gap-x-6 py-5">
+                                <li key={ticket.id} onClick={()=>exactTicket(ticket.id)} className="flex justify-between gap-x-6 py-5">
                                     <div className="flex min-w-0 gap-x-4">
                                         <div className="min-w-0 flex-auto">
                                             <p className="text font-semibold leading-6 text-gray-900">{ticket.FirstName} {ticket.LastName} <span className="mt-1 truncate text-xs leading-5 text-gray-500">{ticket.email}</span></p>

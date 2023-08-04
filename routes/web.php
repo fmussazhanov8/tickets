@@ -31,6 +31,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/newticket', [TicketController::class,'form'])->middleware(['auth', 'verified'])->name('newticket');
+Route::get('/ticket/{id}', [TicketController::class,'showTicket'])->middleware(['auth', 'verified'])->name('ticket');
 Route::get('/ticketlist', [TicketController::class, 'list'])->middleware(['auth', 'verified'])->name('ticketlist');
 
 

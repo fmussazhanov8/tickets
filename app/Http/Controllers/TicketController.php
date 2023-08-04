@@ -31,21 +31,20 @@ class TicketController extends Controller
     }
     public function list(Request $request)
     {
-      $tickets =  Tickets::getTicketList( $request->user()->id);
-        $list = [[
-        "name"=> 'Leslie Alexander',
-            "email"=> 'leslie.alexander@example.com',
-            "role"=> 'Co-Founder / CEO',
-            "imageUrl"=>'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            "lastSeen"=> '3h ago',
-            "lastSeenDateTime"=> '2023-01-23T13:23Z',
-        ]];
-        return Inertia::render('TicketList',['list'=>$list,'tickets'=>$tickets]);
+
+      $tickets = $request->user()->isManager == 1?Tickets::getAllTicketList():Tickets::getTicketList( $request->user()->id);
+      return Inertia::render('TicketList',['tickets'=>$tickets]);
+
     }
     public function form(Request $request)
     {
         $categories = Categories::get();
         return Inertia::render('NewTicket',['categories'=>$categories]);
+    }
+    public function showTicket($id)
+    {
+        $ticket = Tickets::getExactTicket($id);
+        return Inertia::render('Ticket',['id'=>$id,'ticket'=>$ticket]);
     }
 
 }
