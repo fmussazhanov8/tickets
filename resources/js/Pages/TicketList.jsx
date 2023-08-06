@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, useForm} from '@inertiajs/react';
 
-export default function TicketList({ auth ,list,tickets}) {
+export default function TicketList({ auth ,error,tickets}) {
     console.log(tickets);
     const {get } = useForm({});
     const exactTicket = (id) => {
@@ -22,8 +22,20 @@ export default function TicketList({ auth ,list,tickets}) {
                         </a>
                     </div>
                 </div>
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    {
+                        error &&
+                        <div className="bg-white mb-5 overflow-hidden shadow-sm sm:rounded-lg">
+                            <div className="p-6 text-gray-900">
+                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                    <strong className="font-bold">Ошибка!</strong>
+                                    <span className="block sm:inline"> {error}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5">
                         <ul role="list" className="divide-y divide-gray-100">
                             {

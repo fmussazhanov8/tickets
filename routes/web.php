@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResponseController;
 use Illuminate\Foundation\Application;
@@ -33,7 +34,7 @@ Route::get('/ticket/{id}', [TicketController::class,'showTicket'])->middleware([
 Route::get('/ticketlist', [TicketController::class, 'list'])->middleware(['auth', 'verified'])->name('ticketlist');
 
 Route::post('/newresponse', [ResponseController::class, 'store'])->middleware(['auth', 'verified'])->name('post.newresponse');
-
+Route::get('attachment/{type}/{id}',[AttachmentController::class,'download'])->middleware(['auth', 'verified'])->name('download.attachment');
 
 
 

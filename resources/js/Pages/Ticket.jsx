@@ -3,8 +3,9 @@ import {Head, useForm} from '@inertiajs/react';
 import { PaperClipIcon } from '@heroicons/react/20/solid'
 export default function Ticket({ auth,ticket,responses }) {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post,progress, processing, errors, reset } = useForm({
         message: '',
+        files: '',
         ticketId:ticket.id
     });
     const submit = (e) => {
@@ -62,36 +63,26 @@ export default function Ticket({ auth,ticket,responses }) {
                                             <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
                                             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                                 {
-                                                    ticket.attachments
+                                                    ticket.attachments.length > 0
                                                         ?<ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
-                                                        <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                                                            <div className="flex w-0 flex-1 items-center">
-                                                                <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                                                <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                                                                    <span className="truncate font-medium">resume_back_end_developer.pdf</span>
-                                                                    <span className="flex-shrink-0 text-gray-400">2.4mb</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="ml-4 flex-shrink-0">
-                                                                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                                                    Download
-                                                                </a>
-                                                            </div>
-                                                        </li>
-                                                        <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                                                            <div className="flex w-0 flex-1 items-center">
-                                                                <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                                                <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                                                                    <span className="truncate font-medium">coverletter_back_end_developer.pdf</span>
-                                                                    <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="ml-4 flex-shrink-0">
-                                                                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                                                    Download
-                                                                </a>
-                                                            </div>
-                                                        </li>
+                                                            {
+                                                                ticket.attachments.map((attachment) => {
+                                                                return  <li key={attachment.id} className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                                                                        <div className="flex w-0 flex-1 items-center">
+                                                                            <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                                                                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                                                                                <span className="truncate font-medium">{attachment.file_name}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="ml-4 flex-shrink-0">
+                                                                            <a href={route('download.attachment',['ticket',attachment.id])} target={"_blank"} className="font-medium text-indigo-600 hover:text-indigo-500">
+                                                                                Скачать
+                                                                            </a>
+                                                                        </div>
+                                                                    </li>
+                                                                })
+                                                            }
+
                                                     </ul>
                                                         :""
                                                 }
@@ -116,6 +107,32 @@ export default function Ticket({ auth,ticket,responses }) {
                                         </div>
                                         <div className="border-t pt-2">
                                             {response.message}
+                                        </div>
+                                        <div className="borter-t pt-2">
+                                            {
+                                                response.attachments.length > 0
+                                                    ?<ul  role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
+                                                        {
+                                                            response.attachments.map((attachment) => {
+                                                                return  <li key={attachment.id} className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                                                                    <div className="flex w-0 flex-1 items-center">
+                                                                        <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
+                                                                        <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                                                                            <span className="truncate font-medium">{attachment.file_name}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="ml-4 flex-shrink-0">
+                                                                        <a href={route('download.attachment',['response',attachment.id])} target={"_blank"} className="font-medium text-indigo-600 hover:text-indigo-500">
+                                                                            Скачать
+                                                                        </a>
+                                                                    </div>
+                                                                </li>
+                                                            })
+                                                        }
+
+                                                    </ul>
+                                                    :""
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -144,6 +161,17 @@ export default function Ticket({ auth,ticket,responses }) {
 
                                     />
 
+                                                </div>
+                                                <div className={"mt-3"}>
+                                                    <label htmlFor="attachment" className="block text-sm font-medium leading-6 text-gray-900">
+                                                        Файлы
+                                                    </label>
+                                                    <input type="file" id="attachment" multiple name="attachment" onChange={e => setData('files', e.target.files)}/>
+                                                    {progress && (
+                                                        <progress value={progress.percentage} max="100">
+                                                            {progress.percentage}%
+                                                        </progress>
+                                                    )}
                                                 </div>
                                                 <div className="mt-3">
                                                     <button

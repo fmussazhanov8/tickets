@@ -3,10 +3,11 @@ import {Head, useForm} from '@inertiajs/react';
 
 export default function NewTicket({ auth,categories,error }) {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, progress,processing, errors, reset } = useForm({
         title: '',
         category: '',
         message: '',
+        files: '',
     });
     const submit = (e) => {
         e.preventDefault();
@@ -37,7 +38,7 @@ export default function NewTicket({ auth,categories,error }) {
 
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            <form onSubmit={submit}>
+                            <form onSubmit={submit} encType={"multipart/form-data"}>
                                 <div className="space-y-12">
                                     <div className="border-b border-gray-900/10 pb-12">
                                         <h2 className="text-base font-semibold leading-7 text-gray-900">Новая заявка</h2>
@@ -103,7 +104,17 @@ export default function NewTicket({ auth,categories,error }) {
                                     />
                                                 </div>
                                             </div>
-
+                                        <div>
+                                            <label htmlFor="attachment" className="block text-sm font-medium leading-6 text-gray-900">
+                                                Файлы
+                                            </label>
+                                            <input type="file" id="attachment" multiple name="attachment" onChange={e => setData('files', e.target.files)}/>
+                                            {progress && (
+                                                <progress value={progress.percentage} max="100">
+                                                    {progress.percentage}%
+                                                </progress>
+                                            )}
+                                        </div>
                                         </div>
                                     </div>
                                     <button
