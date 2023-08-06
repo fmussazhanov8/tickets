@@ -57,6 +57,12 @@ class TicketController extends Controller
       return Inertia::render('TicketList',['tickets'=>$tickets,'error'=>$request->session()->get('error')]);
 
     }
+    public function close(Request $request){
+        $ticket = Tickets::find($request->get('ticketId'));
+        $ticket->isClosed = 1;
+        $ticket->save();
+        return redirect()->back();
+    }
     public function form(Request $request)
     {
         $categories = Categories::get();

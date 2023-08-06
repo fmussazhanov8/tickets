@@ -17,9 +17,9 @@ export default function NewTicket({ auth,categories,error }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">NewTicket</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Новый тикет</h2>}
         >
-            <Head title="NewTicket" />
+            <Head title="Новый тикет" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -41,7 +41,7 @@ export default function NewTicket({ auth,categories,error }) {
                             <form onSubmit={submit} encType={"multipart/form-data"}>
                                 <div className="space-y-12">
                                     <div className="border-b border-gray-900/10 pb-12">
-                                        <h2 className="text-base font-semibold leading-7 text-gray-900">Новая заявка</h2>
+                                        <h2 className="text-base font-semibold leading-7 text-gray-900">Новый тикет</h2>
                                         <p className="mt-1 text-sm leading-6 text-gray-600">
                                         </p>
                                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

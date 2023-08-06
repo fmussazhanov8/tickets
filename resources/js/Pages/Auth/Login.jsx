@@ -51,7 +51,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="Пароль" />
 
                     <TextInput
                         id="password"
@@ -73,22 +73,20 @@ export default function Login({ status, canResetPassword }) {
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
                         />
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span className="ml-2 text-sm text-gray-600">Запомнить меня</span>
                     </label>
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
+                    <Link
+                        href={route('register')}
+                        className="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    >
+                        Зарегистрироваться
+                    </Link>
 
                     <PrimaryButton className="ml-4" disabled={processing}>
-                        Log in
+                        Войти
                     </PrimaryButton>
                 </div>
             </form>

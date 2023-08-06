@@ -8,17 +8,25 @@ export default function Ticket({ auth,ticket,responses }) {
         files: '',
         ticketId:ticket.id
     });
+    const closeRequest = (e) => {
+        e.preventDefault();
+        setData({
+            ticketId:ticket.id
+        })
+        post(route('closeticket'));
+    }
     const submit = (e) => {
         e.preventDefault();
         // console.log(data)
         post(route('post.newresponse'));
     };
+    let a =new Date(ticket.created_at)
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Тикет {ticket.id}</h2>}
         >
-            <Head title="Dashboard" />
+            <Head title={"Тикет "+ticket.id} />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -26,8 +34,8 @@ export default function Ticket({ auth,ticket,responses }) {
                         <div className="p-6 text-gray-900">
                             <div>
                                 <div className="px-4 sm:px-0">
-                                    <h3 className="text-base font-semibold leading-7 text-gray-900">Ticket {ticket.id}</h3>
-                                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{ticket.created_at}</p>
+                                    <h3 className="text-base font-semibold leading-7 text-gray-900">Тикет {ticket.id}</h3>
+                                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{a.toDateString()}</p>
                                     <div className="mt-1 flex items-center gap-x-1.5">
                                         {
                                             ticket.isClosed == 0 ? <div className="flex-none rounded-full bg-emerald-500/20 p-1">
@@ -88,6 +96,20 @@ export default function Ticket({ auth,ticket,responses }) {
                                                 }
                                             </dd>
                                         </div>
+                                        {
+                                           auth.user.isManager&& !ticket.isClosed?<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                               <dt className="text-sm font-medium leading-6 text-gray-900">Действия</dt>
+                                               <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                                   <div style={{width:"33%"}}>
+                                                       <button onClick={closeRequest} className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                                           Закрыть тикет
+                                                       </button>
+                                                   </div>
+                                               </dd>
+
+                                           </div>:""
+                                        }
+
                                     </dl>
                                 </div>
                             </div>

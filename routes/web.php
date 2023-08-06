@@ -32,6 +32,7 @@ Route::get('/newticket', [TicketController::class,'form'])->middleware(['auth', 
 Route::post('/newticket',  [TicketController::class, 'store'])->middleware(['auth', 'verified'])->name('post.newticket');
 Route::get('/ticket/{id}', [TicketController::class,'showTicket'])->middleware(['auth', 'verified'])->name('ticket');
 Route::get('/ticketlist', [TicketController::class, 'list'])->middleware(['auth', 'verified'])->name('ticketlist');
+Route::post('/closeticket', [TicketController::class, 'close'])->middleware(['auth', 'verified'])->name('closeticket');
 
 Route::post('/newresponse', [ResponseController::class, 'store'])->middleware(['auth', 'verified'])->name('post.newresponse');
 Route::get('attachment/{type}/{id}',[AttachmentController::class,'download'])->middleware(['auth', 'verified'])->name('download.attachment');
