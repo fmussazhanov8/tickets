@@ -71,6 +71,10 @@ class TicketController extends Controller
     public function showTicket(Request $request, $id)
     {
         $ticket = Tickets::getExactTicket($id);
+        if($ticket == null)
+        {
+            return Redirect::route('ticketlist')->with('error', 'Тикет не найден');
+        }
         if($request->user()->isManager == 1||$request->user()->id == $ticket->user_id)
         {
             $responses = Responses::where('ticket_id',$id)
@@ -79,7 +83,7 @@ class TicketController extends Controller
                 ->join('response_attachments', 'responses.id', '=', 'response_attachments.response_id')
                 ->get();
             $attachments = Attachments::where('ticket_id',$id)->select('id','file_name')->get();
-            $ticket->attachments = $attachments??[];
+            $ticket->attachments = empty($attachments)?[]:$attachments;
 
             foreach ($responses as $response)
             {
