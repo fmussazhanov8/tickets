@@ -3,7 +3,7 @@ import {Head, useForm} from '@inertiajs/react';
 
 export default function NewTicket({ auth,categories,error }) {
 
-    const { data, setData, post, progress,processing, errors, reset } = useForm({
+    const { setData, post, progress } = useForm({
         title: '',
         category: '',
         message: '',
@@ -11,7 +11,6 @@ export default function NewTicket({ auth,categories,error }) {
     });
     const submit = (e) => {
         e.preventDefault();
-        // console.log(data)
         post(route('post.newticket'));
     };
     return (

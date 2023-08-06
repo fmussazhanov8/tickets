@@ -3,7 +3,7 @@ import {Head, useForm} from '@inertiajs/react';
 import { PaperClipIcon } from '@heroicons/react/20/solid'
 export default function Ticket({ auth,ticket,responses }) {
 
-    const { data, setData, post,progress, processing, errors, reset } = useForm({
+    const { setData, post,progress } = useForm({
         message: '',
         files: '',
         ticketId:ticket.id
