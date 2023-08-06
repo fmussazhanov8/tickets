@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->string('title');
-            $table->string('message');
+            $table->text('message');
             $table->unsignedBigInteger('user_id');
             $table->integer('isClosed')->default('0');
             $table->timestamps();

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResponseController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\TicketController;
@@ -18,12 +20,7 @@ use App\Http\Controllers\TicketController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Redirect::route('ticketlist');
 });
 
 Route::get('/dashboard', function () {
@@ -31,11 +28,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/newticket', [TicketController::class,'form'])->middleware(['auth', 'verified'])->name('newticket');
+Route::post('/newticket',  [TicketController::class, 'store'])->middleware(['auth', 'verified'])->name('post.newticket');
 Route::get('/ticket/{id}', [TicketController::class,'showTicket'])->middleware(['auth', 'verified'])->name('ticket');
 Route::get('/ticketlist', [TicketController::class, 'list'])->middleware(['auth', 'verified'])->name('ticketlist');
 
+Route::post('/newresponse', [ResponseController::class, 'store'])->middleware(['auth', 'verified'])->name('post.newresponse');
 
-Route::post('/newticket',  [TicketController::class, 'store'])->middleware(['auth', 'verified'])->name('post.newticket');
+
+
 
 
 //Route::middleware('auth')->group(function () {

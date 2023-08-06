@@ -1,7 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 import { PaperClipIcon } from '@heroicons/react/20/solid'
-export default function Ticket({ auth,id,ticket }) {
+export default function Ticket({ auth,ticket,responses }) {
+
+    const { data, setData, post, processing, errors, reset } = useForm({
+        message: '',
+        ticketId:ticket.id
+    });
+    const submit = (e) => {
+        e.preventDefault();
+        // console.log(data)
+        post(route('post.newresponse'));
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -92,6 +102,64 @@ export default function Ticket({ auth,id,ticket }) {
                             </div>
                         </div>
                     </div>
+                    {
+                        responses.length > 0 ? responses.map((response) => {
+                            return <div key={response.id} className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
+                                <div className="p-6 text-gray-900">
+                                    <div>
+                                        <div className="px-4 sm:px-0" >
+                                            <h3 className="text-base font-semibold leading-7 text-gray-900">{response.FirstName} {response.LastName}</h3>
+                                            <p className="text-sm  text-green-500">{response.isManager?"Менеджер":""}</p>
+                                            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{response.email}</p>
+                                            <div className="mt-1 flex items-center gap-x-1.5">
+                                            </div>
+                                        </div>
+                                        <div className="border-t pt-2">
+                                            {response.message}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }) : ""
+
+                    }
+                    {
+                        ticket.isClosed == 0 ?
+                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
+                                <div className="p-6 text-gray-900">
+                                    <div>
+                                        <form action="" onSubmit={submit}>
+                                            <div className="col-span-full">
+                                                <label htmlFor="message" className="block text-sm font-medium leading-6 text-gray-900">
+                                                    Отправить сообщение
+                                                </label>
+                                                <div className="mt-2">
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        rows={4}
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        defaultValue={''}
+                                        onChange={(e) => setData('message', e.target.value)}
+
+                                    />
+
+                                                </div>
+                                                <div className="mt-3">
+                                                    <button
+                                                        type="submit"
+                                                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                                    >
+                                                        Отправить
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            : ""
+                    }
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -15,11 +15,22 @@ export default function TicketList({ auth ,list,tickets}) {
             <Head title="TicketList" />
 
             <div className="py-12">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8" style={{paddingLeft:"80%",margin:"1.5rem 0"}}>
+                    <div>
+                        <a href={route('newticket')} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Новый тикет
+                        </a>
+                    </div>
+                </div>
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5">
                         <ul role="list" className="divide-y divide-gray-100">
+                            {
+                                tickets.length?false:<h2 className="font-semibold text-xl text-gray-800 leading-tight">Список пуст</h2>
+                            }
                             {tickets.map((ticket) => (
-                                <li key={ticket.id} onClick={()=>exactTicket(ticket.id)} className="flex justify-between gap-x-6 py-5">
+                                <li style={{cursor:"pointer"}} key={ticket.id} onClick={()=>exactTicket(ticket.id)} className="flex justify-between gap-x-6 py-5">
                                     <div className="flex min-w-0 gap-x-4">
                                         <div className="min-w-0 flex-auto">
                                             <p className="text font-semibold leading-6 text-gray-900">{ticket.FirstName} {ticket.LastName} <span className="mt-1 truncate text-xs leading-5 text-gray-500">{ticket.email}</span></p>

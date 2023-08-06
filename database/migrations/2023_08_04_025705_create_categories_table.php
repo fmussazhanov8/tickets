@@ -16,6 +16,20 @@ return new class extends Migration
             $table->string('title');
             $table->timestamps();
         });
+        DB::table('categories')->insert(
+            array(
+                array("title" => "Техническая поддержка", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Предложения по улучшению", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Отзыв о продукте", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Проблемы с оплатой", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Запрос на информацию", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Жалоба", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Партнерство", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Сотрудничество", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Сообщить об ошибке", "created_at" => date("Y-m-d H:i:s")),
+                array("title" => "Другое", "created_at" => date("Y-m-d H:i:s"))
+            )
+        );
     }
 
     /**
