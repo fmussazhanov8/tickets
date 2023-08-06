@@ -79,13 +79,13 @@ class TicketController extends Controller
                 ->join('response_attachments', 'responses.id', '=', 'response_attachments.response_id')
                 ->get();
             $attachments = Attachments::where('ticket_id',$id)->select('id','file_name')->get();
+            $ticket->attachments = $attachments??[];
 
             foreach ($responses as $response)
             {
                 $response->attachments = ResponseAttachments::where('response_id',$response->id)->select('id','file_name')->get();
             }
 
-            $ticket->attachments = $attachments;
             return Inertia::render('Ticket',['ticket'=>$ticket,'responses'=>$responses]);
         }
        return Redirect::route('ticketlist')->with('error', 'У вас нет доступа к этому тикету');
