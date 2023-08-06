@@ -14,26 +14,23 @@ class AttachmentController extends Controller
         if($type == 'response')
         {
             $attachment = ResponseAttachments::find($id);
-            $headers = [
-                'Content-Type' => $attachment->mime_type,
-                'Content-Disposition' => 'attachment; filename="' . $attachment->file_name . '"',
-            ];
-            return response()->streamDownload(function () use ($attachment) {
-                echo $attachment->file;
-            }, $attachment->file_name, $headers);
+
         }
         if($type=='ticket')
         {
             $attachment = Attachments::find($id);
-            $headers = [
-                'Content-Type' => $attachment->mime_type,
-                'Content-Disposition' => 'attachment; filename="' . $attachment->file_name . '"',
-            ];
-            return response()->streamDownload(function () use ($attachment) {
-                echo $attachment->file;
-            }, $attachment->file_name, $headers);
         }
-        return false;
+        if($attachment == null)
+        {
+            abort(404);
+        }
+        $headers = [
+            'Content-Type' => $attachment->mime_type,
+            'Content-Disposition' => 'attachment; filename="' . $attachment->file_name . '"',
+        ];
+        return response()->streamDownload(function () use ($attachment) {
+            echo $attachment->file;
+        }, $attachment->file_name, $headers);
 
     }
 }
